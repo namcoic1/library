@@ -112,51 +112,5 @@ namespace LMS_Project.Controllers
             ViewBag.Book = book;
             return View("/Views/Index/BookDetail.cshtml");
         }
-        public IActionResult Log_Reg(string bcid)
-        {
-            if (bcid.Equals("log")) ViewBag.Log = "Login";
-            else if (bcid.Equals("reg")) ViewBag.Reg = "Register";
-            else {
-                HttpContext.Session.Remove("user");
-                return RedirectToAction("index");
-            }
-            return View("/Views/Index/Reg_Log.cshtml");
-        }
-        [HttpPost]
-        public IActionResult AccessLogin(string uemail, string upass)
-        {
-            UserLogics ul = new UserLogics();
-            User u = ul.GetUserLog(uemail, upass);
-            if (u == null)
-            {
-                ViewBag.Log = "Login";
-                ViewBag.Err = "Email or Password is invalid!";
-                return View("/Views/Index/Reg_Log.cshtml");
-            }
-            else
-            {
-                string user = JsonConvert.SerializeObject(u);
-                HttpContext.Session.SetString("user", user);
-                return RedirectToAction("index");
-            }
-        }
-        [HttpPost]
-        public IActionResult AccessRegister(string uname, string uemail, string upass, string ugender)
-        {
-            UserLogics ul = new UserLogics();
-            User u = ul.GetUserReg(uemail);
-            if (u != null)
-            {
-                ViewBag.Reg = "Register";
-                ViewBag.Err = "Email is existing!";
-                return View("/Views/Index/Reg_Log.cshtml");
-            }
-            else
-            {
-                User unew = new User(9999, uemail, upass, 2, "9999", uname, true, ugender.Equals("1")? true : false, DateTime.Now.Date);
-                ul.AddUser(unew);
-                return RedirectToAction("log_reg", new { bcid="log"});
-            }
-        }
     }
 }

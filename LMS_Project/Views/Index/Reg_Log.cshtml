@@ -133,7 +133,7 @@
             @if (ViewBag.Log != null)
             {
                 <div class="signup">
-                    <form action="/home/accesslogin" method="post">
+                    <form action="/user/accesslogin" method="post">
                         <label class="lab-log">Login</label>
                         @if (ViewBag.Err != null)
                         {
@@ -141,7 +141,7 @@
                         }
                         <input type="email" name="uemail" placeholder="Email" required />
                         <input type="password" name="upass" placeholder="Password" required />
-                        <p class="tran-log" onclick="window.location.href='/home/log_reg/reg'">Create an account?</p>
+                        <p class="tran-log" onclick="window.location.href='/user/account/reg'">Create an account?</p>
                         <button type="submit">Sign in</button>
                         <button onclick="window.location.href='/home/index'">
                             Back to home
@@ -153,7 +153,7 @@
             @if (ViewBag.Reg != null)
             {
                 <div class="signup">
-                    <form action="/home/accessregister" method="post">
+                    <form action="/user/accessregister" method="post">
                         <label class="lab-reg">Register</label>
                         @if (ViewBag.Err != null)
                         {
@@ -167,7 +167,7 @@
                             <input class="radio" type="radio" name="ugender" value="1" checked required />
                             <span>Female</span><input class="radio" type="radio" name="ugender" value="0" required />
                         </div>
-                        <p class="tran-log" onclick="window.location.href='/home/log_reg/log'">Have an account?</p>
+                        <p class="tran-log" onclick="window.location.href='/user/account/log'">Have an account?</p>
                         <button type="submit">Sign up</button>
                         <button onclick="window.location.href='/home/index'">
                             Back to home

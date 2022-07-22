@@ -2,6 +2,10 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    @using LMS_Project.Models
+    @using Microsoft.AspNetCore.Http
+    @using Newtonsoft.Json
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -27,14 +31,13 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                /* min-height: 100vh; */
                 font-family: "Jost", sans-serif;
                 background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
             }
 
             .main {
-                width: 450px;
-                height: 650px;
+                width: 500px;
+                height: 850px;
                 background: red;
                 overflow: hidden;
                 background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
@@ -53,9 +56,8 @@
                 font-size: 2em;
                 justify-content: center;
                 display: flex;
-                margin: 95px 0 50px 0;
+                margin: 175px 0 45px 0;
                 font-weight: bold;
-                transition: 0.5s ease-in-out;
             }
 
             input {
@@ -64,8 +66,8 @@
                 background: #e0dede;
                 justify-content: center;
                 display: flex;
-                margin: 25px auto;
-                padding: 20px;
+                margin: 17px auto;
+                padding: 23px;
                 border: none;
                 outline: none;
                 border-radius: 5px;
@@ -81,7 +83,7 @@
                 background: #573b8a;
                 font-size: 1em;
                 font-weight: bold;
-                margin-top: 20px;
+                margin-top: 9px;
                 outline: none;
                 border: none;
                 border-radius: 5px;
@@ -93,43 +95,57 @@
                     background: #6d44b8;
                 }
 
-            .div-radio {
-                color: white;
-                margin: 20px 0 20px 89.9px;
-                font-size: 0.95em;
+            .mes {
+                width: 60%;
+                background-color: white;
+                color: forestgreen;
+                margin-left: 100px;
+                padding: 2px 5px;
+                border-radius: 4px;
             }
-
-            .radio {
-                height: 15px;
-                margin: 5px 0;
-            }
-
         </style>
     </head>
     <body>
         <div class="main">
             <div class="signup">
-                <form>
-                    <label for="chk" aria-hidden="true">Change password</label>
+                @{ string json = HttpContextAccessor.HttpContext.Session.GetString("user");
+                    User u = null;}
+                @if (json != null)
+                {
+                    u = JsonConvert.DeserializeObject<User>(json);
+                }
+                <form action="/user/accesschange" method="post">
+                    <label>Change password</label>
+                    @if (ViewBag.Suc != null)
+                    {
+                        <p class="mes">@ViewBag.Suc</p>
+                    }
+                    @if (ViewBag.Err != null)
+                    {
+                        <p class="mes" style="color: palevioletred;">@ViewBag.Err</p>
+                    }
                     <input type="password"
                            name="uoldpass"
-                           value=""
                            placeholder="Old Password"
                            required />
                     <input type="password"
                            name="unewpass"
-                           value=""
                            placeholder="New Password"
                            required />
                     <input type="password"
                            name="ucfpass"
-                           value=""
                            placeholder="Confirm Password"
                            required />
-                    <button>Save</button>
-                    <button onclick="window.location.href='home/index'">
+                    <button class="mt-5" type="submit">Save</button>
+                    <button onclick="window.location.href='/home/index'">
                         Back to home
                     </button>
+                    @if (u == null)
+                    {
+                        <button onclick="window.location.href='/user/account/login'">
+                            Login Again
+                        </button>
+                    }
                 </form>
             </div>
         </div>

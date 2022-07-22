@@ -28,6 +28,21 @@ namespace LMS_Project.Logics
             db.Users.Add(u);
             db.SaveChanges();
         }
-
+        public void UpdateUserPro(User unew)
+        {
+            User oldU = db.Users.FirstOrDefault(oldu => oldu.UId == unew.UId);
+            oldU.UPhone = unew.UPhone;
+            oldU.UAddress = unew.UAddress;
+            oldU.UUsername = unew.UUsername;
+            oldU.UGender = unew.UGender;
+            oldU.UDob = unew.UDob;
+            db.SaveChanges();
+        }
+        public void UpdateUserPass(User unew)
+        {
+            User oldU = db.Users.FirstOrDefault(oldu => oldu.UId == unew.UId);
+            oldU.UPassword = unew.UPassword;
+            db.SaveChanges();
+        }
     }
 }

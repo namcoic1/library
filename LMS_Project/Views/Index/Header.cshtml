@@ -120,10 +120,10 @@
                                             {
                                                 <div class="setting__menu">
                                                     <span>
-                                                        <a href="/home/log_reg/log">Login</a>
+                                                        <a href="/user/account/log">Login</a>
                                                     </span>
                                                     <span>
-                                                        <a href="/home/log_reg/reg">Register</a>
+                                                        <a href="/user/account/reg">Register</a>
                                                     </span>
                                                 </div>
                                             }
@@ -139,28 +139,43 @@
                                             @if (u.RId == 1)
                                             {
                                                 <span>
-                                                    <a href="#">My Management</a>
+                                                    <a href="#">My Reader Management</a>
+                                                </span>
+                                                <span>
+                                                    <a href="#">My Author Management</a>
                                                 </span>
                                             }
                                             @if (u.RId == 4)
                                             {
                                                 <span>
-                                                    <a href="#">My Management</a>
+                                                    <a href="#">My Book Management</a>
                                                 </span>
                                             }
                                             <span>
-                                                <a href="/home/profile">Profile</a>
+                                                <a href="/user/account/pro">Profile</a>
                                             </span>
                                             <span>
-                                                <a href="/home/changepass">Change Password</a>
-                                            </span>
-                                            <span>
-                                                <a href="/home/log_reg/out">Logout</a>
+                                                <a href="/user/account/change">Change Password</a>
                                             </span>
                                         </div>
                                             }
                                         </div>
                                     </div>
+                                    @if (u != null)
+                                    {
+                                        <strong class="label switcher-label">
+                                            <span></span>
+                                        </strong>
+                                        <div class="switcher-options">
+                                            <div class="switcher-currency-trigger">
+                                                <div class="setting__menu">
+                                                    <span>
+                                                        <a href="/user/account/out">Logout</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
