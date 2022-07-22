@@ -106,11 +106,11 @@
                                                 </p>
                                             </div>
                                             <div class="box-tocart d-flex">
-                                                <span>Qty</span>
+                                                @*<span>Qty</span>
                                                 <input id="qty" class="input-text qty" name="num" min="1" value="1"
-                                                       title="Qty" type="number">
+                                                       title="Qty" type="number">*@
                                                 <div class="addtocart__actions">
-                                                    <button class="tocart" type="submit" title="Add to Cart">
+                                                    <button class="tocart" title="Add to Cart" onclick="window.location.href = '/cart/addcart/detail/@book.BId'">
                                                         Add to
                                                         Cart
                                                     </button>
@@ -176,7 +176,7 @@
                                                     <div class="actions_inner">
                                                         <ul class="add_to_links">
                                                             <li>
-                                                                <a class="cart" href="#">
+                                                                <a class="cart" href="/cart/addcart/detail/@b.BId">
                                                                     <i class="bi bi-shopping-bag4"></i>
                                                                 </a>
                                                             </li>

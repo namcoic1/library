@@ -20,7 +20,7 @@ namespace LMS_Project.Logics
         }
         public List<Book> GetAllBByAutId(int autid)
         {
-            return db.Books.Where(b => b.AutId == autid).ToList();
+            return db.Books.Where(b => b.AutId == autid && b.BStatus == true).ToList();
         }
     }
 }

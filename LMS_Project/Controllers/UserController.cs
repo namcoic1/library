@@ -20,7 +20,7 @@ namespace LMS_Project.Controllers
             if (bcid.Equals("log")) ViewBag.Log = "Login";
             else if (bcid.Equals("reg"))
             {
-                if (u != null) return RedirectToAction("index");
+                if (u != null) return Redirect("/home/index");
                 else ViewBag.Reg = "Register";
             }
             else if (bcid.Equals("pro"))

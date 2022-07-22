@@ -3,7 +3,9 @@
 *@
 @{
     @using LMS_Project.Models
-    @using LMS_Project.Logics
+    @using Microsoft.AspNetCore.Http
+    @using Newtonsoft.Json
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -33,7 +35,6 @@
                 width: 22%;
                 height: 40px;
                 margin: 0 auto;
-                justify-content: center;
                 display: block;
                 color: #fff;
                 background: #573b8a;
@@ -54,6 +55,12 @@
         </style>
     </head>
     <body>
+        @{ string json = HttpContextAccessor.HttpContext.Session.GetString("user");
+            User u = null;}
+        @if (json != null)
+        {
+            u = JsonConvert.DeserializeObject<User>(json);
+        }
         <div class="wrapper" id="wrapper">
             <header id="wn__header" class="oth-page header__area header__absolute sticky__header">
                 @{Html.RenderPartial("~/Views/Index/Header.cshtml");}
@@ -66,7 +73,11 @@
                             <div class="breadcrumb__inner text-center">
                                 <h2 class="breadcrumb-title">Checkout</h2>
                                 <nav class="breadcrumb-content">
-                                    <a class="breadcrumb_item" href="index.html">Home</a>
+                                    <a class="breadcrumb_item" href="/home/index">Home</a>
+                                    <span class="brd-separator">/</span>
+                                    <a class="breadcrumb_item" href="/home/booklist">Shopping</a>
+                                    <span class="brd-separator">/</span>
+                                    <a class="breadcrumb_item" href="/cart/viewcart">Shopping Cart</a>
                                     <span class="brd-separator">/</span>
                                     <span class="breadcrumb_item active">Checkout</span>
                                 </nav>
@@ -83,38 +94,24 @@
                         <div class="col-lg-6 col-12">
                             <div class="customer_details">
                                 <h3>Billing details</h3>
-                                <form action="">
+                                <form action="/cart/accesscheck" method="post">
                                     <div class="customar__field">
-                                        <!-- <div class="margin_between">
-                                          <div class="input_box space_between">
-                                            <label>First name <span>*</span></label>
-                                            <input type="text" />
-                                          </div>
-                                          <div class="input_box space_between">
-                                            <label>last name <span>*</span></label>
-                                            <input type="text" />
-                                          </div>
-                                        </div> -->
                                         <div class="input_box">
                                             <label>User name <span>*</span></label>
-                                            <input type="text" />
-                                        </div>
-                                        <div class="input_box">
-                                            <label>Address <span>*</span></label>
-                                            <input type="text" placeholder="Street address" />
+                                            <input type="text" name="uname" value="@u.UUsername" placeholder="Username" disabled />
                                         </div>
                                         <div class="input_box">
                                             <label>Email address <span>*</span></label>
-                                            <input type="text" placeholder="Street address" />
+                                            <input type="text" name="uemail" value="@u.UEmail" placeholder="Email" disabled />
                                         </div>
                                         <div class="input_box">
                                             <label>Phone <span>*</span></label>
-                                            <input type="text" placeholder="Street address" />
+                                            <input type="text" name="uphone" value="@u.UPhone" placeholder="Phone" disabled />
+                                        </div>
+                                        <div class="input_box">
+                                            <button class="btn" type="submit">Submit</button>
                                         </div>
                                     </div>
-                                    <ul class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-start">
-                                        <li><a href="#">Submit</a></li>
-                                    </ul>
                                 </form>
                             </div>
                         </div>
@@ -122,17 +119,17 @@
                             <div class="wn__order__box">
                                 <h3 class="order__title">Your order</h3>
                                 <ul class="order__total">
-                                    <li>Product</li>
+                                    <li>Book</li>
                                     <li>Total</li>
                                 </ul>
                                 <ul class="order_product">
-                                    <li>Buscipit at magna × 1<span>$48.00</span></li>
-                                </ul>
-                                <ul class="shipping__method">
-                                    <li>Cart Subtotal <span>$48.00</span></li>
+                                    @foreach (Cart c in ViewBag.Cart)
+                                    {
+                                        <li>@c.Book.BName x @c.Quantities<span>$@c.TotalAt</span></li>
+                                    }
                                 </ul>
                                 <ul class="total__amount">
-                                    <li>Order Total <span>$223.00</span></li>
+                                    <li>Order Total <span>$@ViewBag.Total</span></li>
                                 </ul>
                             </div>
                         </div>
