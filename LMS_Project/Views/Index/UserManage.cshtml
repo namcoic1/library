@@ -1,0 +1,228 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using LMS_Project.Models
+    @using LMS_Project.Logics
+    @using Microsoft.AspNetCore.Http
+    @using Newtonsoft.Json
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>User Management</title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Css link -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+              rel="stylesheet" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/bootstrap.min.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/plugins.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/style.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/custom.css" />
+        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <style>
+            .btn {
+                width: 10%;
+                height: 40px;
+                display: block;
+                color: #fff;
+                background: #573b8a;
+                font-size: 1em;
+                font-weight: bold;
+                outline: none;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-bottom: 10px;
+            }
+
+                .btn:hover {
+                    background: #6d44b8;
+                    color: #fff;
+                }
+            .mes {
+                background-color: antiquewhite;
+                color: green;
+                width: 100%;
+                padding: 4px 5px;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper" id="wrapper">
+            <header id="wn__header" class="oth-page header__area header__absolute sticky__header">
+                @{Html.RenderPartial("~/Views/Index/Header.cshtml");}
+            </header>
+            @{ string json = HttpContextAccessor.HttpContext.Session.GetString("user");
+                User u = null;}
+            @if (json != null)
+            {
+                u = JsonConvert.DeserializeObject<User>(json);
+            }
+            <!-- Start breadcrumb area -->
+            <div class="ht__breadcrumb__area bg-image--6">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="breadcrumb__inner text-center">
+                                <h2 class="breadcrumb-title">User Management</h2>
+                                <nav class="breadcrumb-content">
+                                    <a class="breadcrumb_item" href="/home/index">Home</a>
+                                    <span class="brd-separator">/</span>
+                                    <span class="breadcrumb_item active">User Management</span>
+                                    @*<span class="brd-separator">/</span>
+                                        <a class="breadcrumb_item" href="/management/order">Order Management</a>*@
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End breadcrumb area -->
+            <div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
+                <div class="container-fluid" style="width:90%">
+                    <div class="row">
+                        <div class="col-lg-3 col-12 order-2 order-lg-1 md-mt-40 sm-mt-40">
+                            <div class="shop__sidebar">
+                                @{ UserLogics ul = new UserLogics();}
+                                <aside class="widget__categories products--cat">
+                                    <h3 class="widget__title mt-3">User Role</h3>
+                                    <ul>
+                                        @foreach (Role r in ViewBag.Role)
+                                        {
+                                            @if (r.RId != 1)
+                                            {
+                                                <li style="@(ViewBag.RCur == r.RId ? "background-color: blanchedalmond" : "")">
+                                                    <a href="/management/user/@r.RId/@ViewBag.UStatus/1">@r.RName <span>@ul.GetAllUserByRid(r.RId).Count users</span></a>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                    <h3 class="widget__title mt-3">User Status</h3>
+                                    <ul>
+                                        <li style="@(ViewBag.UStatus == 1? "background-color: blanchedalmond":"")">
+                                            <a href="/management/user/@ViewBag.RCur/1/1">Activated <span>@ul.GetAllUser(1).Count users</span></a>
+                                        </li>
+                                        <li style="@(ViewBag.UStatus == 0? "background-color: blanchedalmond":"")">
+                                            <a href="/management/user/@ViewBag.RCur/0/1">Disabled <span>@ul.GetAllUser(0).Count users</span></a>
+                                        </li>
+                                    </ul>
+                                    @if (ViewBag.UStatus > -1 || ViewBag.RCur > 0)
+                                    {
+                                        <div class="price--filter mt-2">
+                                            <a href="/management/user">Clear</a>
+                                        </div>
+                                    }
+                                </aside>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-12 order-1 order-lg-2">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="shop__list__wrapper d-flex flex-wrap flex-md-nowrap justify-content-center">
+                                        <p>Showing @(ViewBag.MiniSize != null? ViewBag.MiniSize:"0") of @(ViewBag.TotalSize != null? ViewBag.TotalSize : "0") results</p>
+                                    </div>
+                                    @if (ViewBag.Suc != null)
+                                    {
+                                        <div class="d-flex justify-content-start mb-2">
+                                            <p class="mes">@ViewBag.Suc</p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="table-content wnro__table table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr class="title-top">
+                                            <th class="product-name">Name</th>
+                                            <th class="product-subtotal">Role</th>
+                                            <th class="product-thumbnail">Email</th>
+                                            <th class="product-quantity">Phone</th>
+                                            <th class="product-price">Birthday</th>
+                                            <th class="product-subtotal">Gender</th>
+                                            <th class="product-subtotal">Address</th>
+                                            <th class="product-subtotal">User Status</th>
+                                            <th class="product-subtotal">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (User mb in ViewBag.User)
+                                        {
+                                            <tr>
+                                                <td class="product-subtotal">
+                                                    @mb.UUsername
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    @ul.GetRolById((int)mb.RId).RName
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    @mb.UEmail
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    @mb.UPhone
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    @(mb.UDob?.ToString("dd-MM-yyyy"))
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    @(mb.UGender == true? "Male":"Female")
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    @mb.UAddress
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    @((bool)mb.UStatus? "Activated" : "Disabled")
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    <a href="/management/userdis/@ViewBag.RCur/@ViewBag.UStatus/@ViewBag.PageCur/@mb.UId">@(mb.UStatus == true? "Disable":"Activate")</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <ul class="wn__pagination my-3">
+                                    @if (ViewBag.NumPage > 1 && ViewBag.PageCur > 1)
+                                    {
+                                        <li>
+                                            <a href="/management/user/@ViewBag.RCur/@ViewBag.UStatus/@(ViewBag.PageCur - 1)"><i class="zmdi zmdi-chevron-left"></i></a>
+                                        </li>
+                                    }
+                                    @for (int i = 1; i <= ViewBag.NumPage; i++)
+                                    {
+                                        <li class="@(ViewBag.PageCur == i ? "active" : "")"><a href="/management/user/@ViewBag.RCur/@ViewBag.UStatus/@i">@i</a></li>
+                                    }
+                                    @if (ViewBag.NumPage > 1 && ViewBag.PageCur < ViewBag.NumPage)
+                                    {
+                                        <li>
+                                            <a href="/management/user/@ViewBag.RCur/@ViewBag.UStatus/@(ViewBag.PageCur + 1)"><i class="zmdi zmdi-chevron-right"></i></a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @{Html.RenderPartial("~/Views/Index/Footer.cshtml");}
+        <!-- JS Files -->
+        <script src="https://htmldemo.net/boighor/boighor/js/vendor/jquery.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/popper.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/vendor/bootstrap.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/plugins.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/active.js"></script>
+    </body>
+</html>
+}

@@ -1,0 +1,207 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using LMS_Project.Models
+    @using LMS_Project.Logics
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>Shopping Detail</title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Css link -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+              rel="stylesheet" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/bootstrap.min.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/plugins.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/style.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/custom.css" />
+        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <style>
+            .btn {
+                width: 22%;
+                height: 40px;
+                margin: 0 auto;
+                justify-content: center;
+                display: block;
+                color: #fff;
+                background: #573b8a;
+                font-size: 1em;
+                font-weight: bold;
+                margin-top: 20px;
+                outline: none;
+                border: none;
+                border-radius: 5px;
+                transition: 0.2s ease-in;
+                cursor: pointer;
+            }
+
+                .btn:hover {
+                    background: #6d44b8;
+                    color: #fff;
+                }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper" id="wrapper">
+            <header id="wn__header" class="oth-page header__area header__absolute sticky__header">
+                @{Html.RenderPartial("~/Views/Index/Header.cshtml");}
+            </header>
+            <!-- Start breadcrumb area -->
+            <div class="ht__breadcrumb__area bg-image--4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="breadcrumb__inner text-center">
+                                <h2 class="breadcrumb-title">Shopping Detail</h2>
+                                <nav class="breadcrumb-content">
+                                    <a class="breadcrumb_item" href="/home/index">Home</a>
+                                    <span class="brd-separator">/</span>
+                                    <a class="breadcrumb_item" href="/home/booklist">Shopping</a>
+                                    <span class="brd-separator">/</span>
+                                    <span class="breadcrumb_item active">Shopping Detail</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End breadcrumb area -->
+            <!-- Start main Content -->
+            <div class="maincontent bg--white pt--80 pb--55">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-12">
+                            <div class="wn__single__product">
+                                <div class="row">
+                                    @{ Book book = ViewBag.Book;}
+                                    @{ BookCategory bookcate = ViewBag.BCateCur;}
+                                    <div class="col-lg-6 col-12">
+                                        <div class="product__thumb">
+                                            <a class="first__img">
+                                                <img style="width:275px; height:330px" src="@book.BImg" alt="product" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="product__info__main">
+                                            <h1>@book.BName</h1>
+                                            <div class="price-box">
+                                                <span>$@book.BPrice</span>
+                                            </div>
+                                            <div class="product__overview">
+                                                <p>
+                                                    @book.BDesc
+                                                </p>
+                                            </div>
+                                            <div class="box-tocart d-flex">
+                                                @*<span>Qty</span>
+                                                <input id="qty" class="input-text qty" name="num" min="1" value="1"
+                                                       title="Qty" type="number">*@
+                                                <div class="addtocart__actions">
+                                                    <button class="tocart" title="Add to Cart" onclick="window.location.href = '/cart/addcart/detail/@book.BId'">
+                                                        Add to
+                                                        Cart
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="product__overview">
+                                                <p>
+                                                    Remaining: @book.BStock books.
+                                                </p>
+                                            </div>
+                                            <div class="product_meta">
+                                                <span class="posted_in">
+                                                    Book Categories:
+                                                    <a href="/home/booklist/@bookcate.BCateId/0/1">@bookcate.BCateName</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product__info__detailed">
+                                <div class="pro_details_nav nav justify-content-start" role="tablist">
+                                    <a class="nav-item nav-link active" data-bs-toggle="tab" href="#nav-details"
+                                       role="tab">Details</a>
+                                </div>
+                                <div class="tab__container tab-content">
+                                    <!-- Start Single Tab Content -->
+                                    <div class="pro__tab_label tab-pane fade show active" id="nav-details" role="tabpanel">
+                                        <div class="description__attribute">
+                                            <p>
+                                                @book.BDesc
+                                            </p>
+                                            <ul>
+                                                <li>• This is a good book.</li>
+                                                <li>• It's suitable for everyone.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- End Single Tab Content -->
+                                </div>
+                            </div>
+                            <div class="wn__related__product pt--80 pb--50">
+                                <div class="section__title text-center">
+                                    <h2 class="title__be--2">Related Products</h2>
+                                </div>
+                                <div class="row mt--60">
+                                    <!-- Start Single Product -->
+                                    @foreach (Book b in ViewBag.BRelate)
+                                    {
+                                        <div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                            <div class="product__thumb">
+                                                <a class="first__img" href="/home/bookdetail/@b.BId">
+                                                    <img src="@b.BImg" alt="product" />
+                                                </a>
+                                            </div>
+                                            <div class="product__content content--center ">
+                                                <h4><a href="/home/bookdetail/@b.BId">@b.BName</a></h4>
+                                                <ul class="price d-flex">
+                                                    <li>$@b.BPrice</li>
+                                                    @*<li class="old_price">$35.00</li>*@
+                                                </ul>
+                                                <div class="action">
+                                                    <div class="actions_inner">
+                                                        <ul class="add_to_links">
+                                                            <li>
+                                                                <a class="cart" href="/cart/addcart/detail/@b.BId">
+                                                                    <i class="bi bi-shopping-bag4"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <!-- Start Single Product -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End main Content -->
+            @{Html.RenderPartial("~/Views/Index/Footer.cshtml");}
+        </div>
+        <!-- JS Files -->
+        <script src="https://htmldemo.net/boighor/boighor/js/vendor/jquery.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/popper.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/vendor/bootstrap.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/plugins.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/active.js"></script>
+    </body>
+</html>
+}

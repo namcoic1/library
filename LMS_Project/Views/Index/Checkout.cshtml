@@ -1,0 +1,151 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using LMS_Project.Models
+    @using Microsoft.AspNetCore.Http
+    @using Newtonsoft.Json
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>Check out</title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Css link -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+              rel="stylesheet" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/bootstrap.min.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/plugins.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/style.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/custom.css" />
+        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <style>
+            .btn {
+                width: 22%;
+                height: 40px;
+                margin: 0 auto;
+                display: block;
+                color: #fff;
+                background: #573b8a;
+                font-size: 1em;
+                font-weight: bold;
+                margin-top: 20px;
+                outline: none;
+                border: none;
+                border-radius: 5px;
+                transition: 0.2s ease-in;
+                cursor: pointer;
+            }
+
+                .btn:hover {
+                    background: #6d44b8;
+                    color: #fff;
+                }
+        </style>
+    </head>
+    <body>
+        @{ string json = HttpContextAccessor.HttpContext.Session.GetString("user");
+            User u = null;}
+        @if (json != null)
+        {
+            u = JsonConvert.DeserializeObject<User>(json);
+        }
+        <div class="wrapper" id="wrapper">
+            <header id="wn__header" class="oth-page header__area header__absolute sticky__header">
+                @{Html.RenderPartial("~/Views/Index/Header.cshtml");}
+            </header>
+            <!-- Start breadcrumb area -->
+            <div class="ht__breadcrumb__area bg-image--4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="breadcrumb__inner text-center">
+                                <h2 class="breadcrumb-title">Checkout</h2>
+                                <nav class="breadcrumb-content">
+                                    <a class="breadcrumb_item" href="/home/index">Home</a>
+                                    <span class="brd-separator">/</span>
+                                    <a class="breadcrumb_item" href="/home/booklist">Shopping</a>
+                                    <span class="brd-separator">/</span>
+                                    <a class="breadcrumb_item" href="/cart/viewcart">Shopping Cart</a>
+                                    <span class="brd-separator">/</span>
+                                    <span class="breadcrumb_item active">Checkout</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End breadcrumb area -->
+            <!-- Start Checkout Area -->
+            <section class="wn__checkout__area section-padding--lg bg__white">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div class="customer_details">
+                                <h3>Billing details</h3>
+                                <form action="/cart/accesscheck" method="post">
+                                    <div class="customar__field">
+                                        <input hidden name="totalmon" value="@ViewBag.Total" />
+                                        <div class="input_box">
+                                            <label>User name <span>*</span></label>
+                                            <input type="text" name="uname" value="@u.UUsername" placeholder="Username" disabled />
+                                        </div>
+                                        <div class="input_box">
+                                            <label>Email address <span>*</span></label>
+                                            <input type="text" name="uemail" value="@u.UEmail" placeholder="Email" disabled />
+                                        </div>
+                                        <div class="input_box">
+                                            <label>Phone <span>*</span></label>
+                                            <input type="text" name="uphone" value="@u.UPhone" placeholder="Phone" disabled />
+                                        </div>
+                                        <div class="input_box">
+                                            <button class="btn" type="submit">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12 md-mt-40 sm-mt-40">
+                            <div class="wn__order__box">
+                                <h3 class="order__title">Your order</h3>
+                                <ul class="order__total">
+                                    <li>Book</li>
+                                    <li>Total</li>
+                                </ul>
+                                <ul class="order_product">
+                                    @foreach (Cart c in ViewBag.Cart)
+                                    {
+                                        <li>@c.Book.BName x @c.Quantities<span>$@c.TotalAt</span></li>
+                                    }
+                                </ul>
+                                <ul class="total__amount">
+                                    <li>Order Total <span>$@ViewBag.Total</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- End Checkout Area -->
+            @{Html.RenderPartial("~/Views/Index/Footer.cshtml");}
+        </div>
+        <!-- JS Files -->
+        <script src="https://htmldemo.net/boighor/boighor/js/vendor/jquery.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/popper.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/vendor/bootstrap.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/plugins.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/active.js"></script>
+    </body>
+</html>
+}
