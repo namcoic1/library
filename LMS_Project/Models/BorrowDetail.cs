@@ -13,6 +13,15 @@ namespace LMS_Project.Models
         public decimal? Price { get; set; }
         public decimal? Total { get; set; }
 
+        public BorrowDetail(int bId, int brId, int? quantity, decimal? price, decimal? total)
+        {
+            BId = bId;
+            BrId = brId;
+            Quantity = quantity;
+            Price = price;
+            Total = total;
+        }
+
         public virtual Book BIdNavigation { get; set; }
         public virtual Borrow Br { get; set; }
     }
