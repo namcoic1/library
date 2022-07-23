@@ -1,0 +1,215 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using LMS_Project.Models
+    @using LMS_Project.Logics
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>Shopping</title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Css link -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+              rel="stylesheet" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/bootstrap.min.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/plugins.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/style.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/custom.css" />
+        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <style>
+            .btn {
+                width: 22%;
+                height: 40px;
+                margin: 0 auto;
+                justify-content: center;
+                display: block;
+                color: #fff;
+                background: #573b8a;
+                font-size: 1em;
+                font-weight: bold;
+                margin-top: 20px;
+                outline: none;
+                border: none;
+                border-radius: 5px;
+                transition: 0.2s ease-in;
+                cursor: pointer;
+            }
+
+                .btn:hover {
+                    background: #6d44b8;
+                    color: #fff;
+                }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper" id="wrapper">
+            <header id="wn__header" class="oth-page header__area header__absolute sticky__header">
+                @{Html.RenderPartial("~/Views/Index/Header.cshtml");}
+            </header>
+            <div class="ht__breadcrumb__area bg-image--5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="breadcrumb__inner text-center">
+                                <h2 class="breadcrumb-title">Shopping</h2>
+                                <nav class="breadcrumb-content">
+                                    <a class="breadcrumb_item" href="/home/index">Home</a>
+                                    <span class="brd-separator">/</span>
+                                    <span class="breadcrumb_item active">Shopping</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-12 order-2 order-lg-1 md-mt-40 sm-mt-40">
+                            <div class="shop__sidebar">
+                                <aside class="widget__categories products--cat">
+                                    <h3 class="widget__title">Book Categories</h3>
+                                    @{HomeLogics hl = new HomeLogics();}
+                                    <ul>
+                                        @foreach (BookCategory bc in ViewBag.BCate)
+                                        {
+                                            if (ViewBag.BCateCur == bc.BCateId)
+                                            {
+                                                <li style="background-color: blanchedalmond">
+                                                    <a href="/home/booklist/@bc.BCateId/@ViewBag.AutCur/1">@bc.BCateName <span>@hl.GetAllBByBCateIdAct(bc.BCateId).Count books</span></a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a href="/home/booklist/@bc.BCateId/@ViewBag.AutCur/1">@bc.BCateName <span>@hl.GetAllBByBCateIdAct(bc.BCateId).Count books</span></a>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                    <h3 class="widget__title mt-3">Authors</h3>
+                                    <ul>
+                                        @foreach (User a in ViewBag.Aut)
+                                        {
+                                            if (ViewBag.AutCur == a.UId)
+                                            {
+                                                <li style="background-color: blanchedalmond">
+                                                    <a href="/home/booklist/@ViewBag.BCateCur/@a.UId/1">@a.UUsername <span>@hl.GetAllBActByAutId(a.UId).Count books</span></a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a href="/home/booklist/@ViewBag.BCateCur/@a.UId/1">@a.UUsername <span>@hl.GetAllBActByAutId(a.UId).Count books</span></a>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                    @if (ViewBag.BCateCur != "0" || ViewBag.AutCur != 0)
+                                    {
+                                        <div class="price--filter mt-1">
+                                            <a href="/home/booklist">Clear</a>
+                                        </div>
+                                    }
+
+                                </aside>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-12 order-1 order-lg-2">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="shop__list__wrapper d-flex flex-wrap flex-md-nowrap justify-content-center">
+                                        <p>Showing @ViewBag.MiniSize of @ViewBag.TotalSize results</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab__container tab-content">
+                                <div class="shop-grid  fade show active"
+                                     id="nav-grid"
+                                     role="tabpanel">
+                                    <div class="row">
+                                        <!-- Start Single Product -->
+                                        @foreach (Book b in ViewBag.B)
+                                        {
+                                            <div class="product product__style--3 col-lg-4 col-md-4 col-sm-6 col-12">
+                                                <div class="product__thumb">
+                                                    <a class="first__img" href="/home/bookdetail/@b.BId">
+                                                        <img src="@b.BImg" alt="product" />
+                                                    </a>
+                                                </div>
+                                                <div class="product__content content--center ">
+                                                    <h4><a href="/home/bookdetail/@b.BId">@b.BName</a></h4>
+                                                    <ul class="price d-flex">
+                                                        <li>$@b.BPrice</li>
+                                                        @*<li class="old_price">$35.00</li>*@
+                                                    </ul>
+                                                    <div class="action">
+                                                        <div class="actions_inner">
+                                                            <ul class="add_to_links">
+                                                                <li>
+                                                                    <a class="cart" href="/cart/addcart/list/@b.BId">
+                                                                        <i class="bi bi-shopping-bag4"></i>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        <!-- End Single Product -->
+                                    </div>
+                                    <ul class="wn__pagination">
+                                        @if (ViewBag.NumPage > 1 && ViewBag.PageCur > 1)
+                                        {
+                                            <li>
+                                                <a href="/home/booklist/@ViewBag.BCateCur/@ViewBag.AutCur/@(ViewBag.PageCur-1)"><i class="zmdi zmdi-chevron-left"></i></a>
+                                            </li>
+                                        }
+                                        @for (int i = 1; i <= ViewBag.NumPage; i++)
+                                        {
+                                            @if (ViewBag.PageCur == i)
+                                            {
+                                                <li class="active"><a href="/home/booklist/@ViewBag.BCateCur/@ViewBag.AutCur/@i">@i</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="/home/booklist/@ViewBag.BCateCur/@ViewBag.AutCur/@i">@i</a></li>
+                                            }
+                                        }
+                                        @if (ViewBag.NumPage > 1 && ViewBag.PageCur < ViewBag.NumPage)
+                                        {
+                                            <li>
+                                                <a href="/home/booklist/@ViewBag.BCateCur/@ViewBag.AutCur/@(ViewBag.PageCur+1)"><i class="zmdi zmdi-chevron-right"></i></a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @{Html.RenderPartial("~/Views/Index/Footer.cshtml");}
+        </div>
+        <!-- JS Files -->
+        <script src="https://htmldemo.net/boighor/boighor/js/vendor/jquery.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/popper.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/vendor/bootstrap.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/plugins.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/active.js"></script>
+    </body>
+</html>
+}
