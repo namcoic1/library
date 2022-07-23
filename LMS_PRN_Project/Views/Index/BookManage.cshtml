@@ -1,0 +1,213 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using LMS_PRN_Project.Models
+    @using LMS_PRN_Project.Logics
+    @using Microsoft.AspNetCore.Http
+    @using Newtonsoft.Json
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>Book Management</title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Css link -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,600,600i,700,700i,800"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
+              rel="stylesheet" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/bootstrap.min.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/plugins.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/style.css" />
+        <link rel="stylesheet"
+              href="https://htmldemo.net/boighor/boighor/css/custom.css" />
+        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <style>
+            .btn {
+                width: 10%;
+                height: 40px;
+                display: block;
+                color: #fff;
+                background: #573b8a;
+                font-size: 1em;
+                font-weight: bold;
+                outline: none;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-bottom: 10px;
+            }
+
+                .btn:hover {
+                    background: #6d44b8;
+                    color: #fff;
+                }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper" id="wrapper">
+            <header id="wn__header" class="oth-page header__area header__absolute sticky__header">
+                @{Html.RenderPartial("~/Views/Index/Header.cshtml");}
+            </header>
+
+            <!-- Start breadcrumb area -->
+            <div class="ht__breadcrumb__area bg-image--6">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="breadcrumb__inner text-center">
+                                <h2 class="breadcrumb-title">Book Management</h2>
+                                <nav class="breadcrumb-content">
+                                    <a class="breadcrumb_item" href="/home/index">Home</a>
+                                    <span class="brd-separator">/</span>
+                                    <span class="breadcrumb_item active">Book Management</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End breadcrumb area -->
+            <div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
+                <div class="container-fluid" style="width:80%">
+                    <div class="row">
+                        <div class="col-lg-3 col-12 order-2 order-lg-1 md-mt-40 sm-mt-40">
+                            <div class="shop__sidebar">
+                                <aside class="widget__categories products--cat">
+                                    <h3 class="widget__title">Book Categories</h3>
+                                    @{HomeLogics hl = new HomeLogics();}
+                                    @{AuthorLogics al = new AuthorLogics();}
+                                    <ul>
+                                        @foreach (BookCategory bc in ViewBag.BCate)
+                                        {
+                                            <li style="@(ViewBag.BCateCur == bc.BCateId? "background-color: blanchedalmond":"")">
+                                                <a href="/management/book/@bc.BCateId/@ViewBag.BStatus/1">@bc.BCateName <span>@hl.GetAllBByBCateIdAd(bc.BCateId).Count books</span></a>
+                                            </li>
+                                        }
+                                    </ul>
+                                    <h3 class="widget__title mt-3">Book Status</h3>
+                                    <ul>
+                                        <li style="@(ViewBag.BStatus == 1? "background-color: blanchedalmond":"")">
+                                            <a href="/management/book/@ViewBag.BCateCur/1/1">Published <span>@hl.GetAllB().Count books</span></a>
+                                        </li>
+                                        <li style="@(ViewBag.BStatus == 0? "background-color: blanchedalmond":"")">
+                                            <a href="/management/book/@ViewBag.BCateCur/0/1">Unpublished <span>@hl.GetAllBDis().Count books</span></a>
+                                        </li>
+                                    </ul>
+                                    @if (ViewBag.BCateCur != "0" || ViewBag.BStatus > -1)
+                                    {
+                                        <div class="price--filter mt-2">
+                                            <a href="/management/book">Clear</a>
+                                        </div>
+                                    }
+                                </aside>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-12 order-1 order-lg-2">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="d-flex justify-content-end"><button class="btn" onclick="window.location.href=''">Add</button></div>
+                                    <div class="shop__list__wrapper d-flex flex-wrap flex-md-nowrap justify-content-center">
+                                        <p>Showing @(ViewBag.MiniSize != null? ViewBag.MiniSize:"0") of @(ViewBag.TotalSize != null? ViewBag.TotalSize : "0") results</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-content wnro__table table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr class="title-top">
+                                            <th class="product-name">Name</th>
+                                            <th class="product-thumbnail">Image</th>
+                                            <th class="product-quantity">Quantity</th>
+                                            <th class="product-price">Price</th>
+                                            @*<th class="product-subtotal">Description</th>*@
+                                            <th class="product-subtotal">Book Category</th>
+                                            @*<th class="product-subtotal">Book Author</th>*@
+                                            <th class="product-subtotal">Book Status</th>
+                                            <th class="product-subtotal">Last Updated</th>
+                                            <th class="product-subtotal">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (Book mb in ViewBag.B)
+                                        {
+                                            <tr>
+                                                <td class="product-subtotal">
+                                                    @mb.BName
+                                                </td>
+                                                <td class="product-thumbnail">
+                                                    <img src="@mb.BImg"
+                                                         alt="product" />
+                                                </td>
+                                                <td class="product-quantity">
+                                                    @mb.BStock
+                                                </td>
+                                                <td class="product-price">
+                                                    <span class="amount">$@String.Format("{0:0.00}", @mb.BPrice)</span>
+                                                </td>
+                                                @*<td class="product-subtotal">
+                                    @mb.BDesc
+                                </td>*@
+                                                <td class="product-subtotal">
+                                                    @hl.GetBookCateById(mb.BCateId).BCateName
+                                                </td>
+                                                @*<td class="product-subtotal">
+                                    @al.GetAutById((int)mb.AutId).AutName
+                                </td>*@
+                                                <td class="product-subtotal">
+                                                    @((bool)mb.BStatus? "Published":"Unpublished")
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    @mb.BLastupdated
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    <a href="">Edit</a>
+                                                    <a href="">Disabled</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <ul class="wn__pagination my-3">
+                                    @if (ViewBag.NumPage > 1 && ViewBag.PageCur > 1)
+                                    {
+                                        <li>
+                                            <a href="/management/book/@ViewBag.BCateCur/@ViewBag.BStatus/@(ViewBag.PageCur - 1)"><i class="zmdi zmdi-chevron-left"></i></a>
+                                        </li>
+                                    }
+                                    @for (int i = 1; i <= ViewBag.NumPage; i++)
+                                    {
+                                        <li class="@(ViewBag.PageCur == i ? "active" : "")"><a href="/management/book/@ViewBag.BCateCur/@ViewBag.BStatus/@i">@i</a></li>
+                                    }
+                                    @if (ViewBag.NumPage > 1 && ViewBag.PageCur < ViewBag.NumPage)
+                                    {
+                                        <li>
+                                            <a href="/management/book/@ViewBag.BCateCur/@ViewBag.BStatus/@(ViewBag.PageCur + 1)"><i class="zmdi zmdi-chevron-right"></i></a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @{Html.RenderPartial("~/Views/Index/Footer.cshtml");}
+        <!-- JS Files -->
+        <script src="https://htmldemo.net/boighor/boighor/js/vendor/jquery.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/popper.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/vendor/bootstrap.min.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/plugins.js"></script>
+        <script src="https://htmldemo.net/boighor/boighor/js/active.js"></script>
+    </body>
+</html>
+}
