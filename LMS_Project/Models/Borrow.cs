@@ -11,12 +11,15 @@ namespace LMS_Project.Models
         {
             BorrowDetails = new HashSet<BorrowDetail>();
         }
-        public Borrow(int? uId, DateTime? brDate, DateTime? brResend)
+
+        public Borrow(int? uId, DateTime? brDate, DateTime? brResend, int? shId)
         {
             UId = uId;
             BrDate = brDate;
             BrResend = brResend;
+            ShId = shId;
         }
+
         public int BrId { get; set; }
         public int? UId { get; set; }
         public DateTime? BrDate { get; set; }

@@ -106,37 +106,41 @@
                                                 <th class="product-quantity">Quantity</th>
                                                 <th class="product-price">Price</th>
                                                 <th class="product-subtotal">Date borrowed</th>
-                                                <th class="product-subtotal">Date resended</th>
+                                                <th class="product-subtotal">Date shipping</th>
+                                                <th class="product-subtotal">Order Status</th>
                                                 <th class="product-subtotal">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach (MyBorrowed mb in ViewBag.MyBorrow)
                                             {
-                                                <tr>
-                                                    <td class="product-name">
-                                                        <a href="/home/bookdetail/@mb.Book.BId">@mb.Book.BName</a>
-                                                    </td>
-                                                    <td class="product-thumbnail">
-                                                        <a href="/home/bookdetail/@mb.Book.BId">
-                                                            <img src="@mb.Book.BImg"
-                                                                 alt="product" />
-                                                        </a>
-                                                    </td>
-                                                    <td class="product-quantity">
-                                                        <input type="text" value="@mb.BorrowDetail.Quantity" disabled />
-                                                    </td>
-                                                    <td class="product-price">
-                                                        <span class="amount">$@String.Format("{0:0.00}", @mb.BorrowDetail.Price)</span>
-                                                    </td>
-                                                    <td class="product-subtotal">
-                                                        @mb.Borrow.BrDate
-                                                    </td>
-                                                    <td class="product-subtotal">
-                                                        @mb.Borrow.BrResend
-                                                    </td>
-                                                    <td class="product-subtotal">$@String.Format("{0:0.00}", @mb.BorrowDetail.Total)</td>
-                                                </tr>
+                                            <tr>
+                                                <td class="product-name">
+                                                    <a href="/home/bookdetail/@mb.Book.BId">@mb.Book.BName</a>
+                                                </td>
+                                                <td class="product-thumbnail">
+                                                    <a href="/home/bookdetail/@mb.Book.BId">
+                                                        <img src="@mb.Book.BImg"
+                                                             alt="product" />
+                                                    </a>
+                                                </td>
+                                                <td class="product-quantity">
+                                                    <input type="text" value="@mb.BorrowDetail.Quantity" disabled />
+                                                </td>
+                                                <td class="product-price">
+                                                    <span class="amount">$@String.Format("{0:0.00}", @mb.BorrowDetail.Price)</span>
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    @mb.Borrow.BrDate
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    @mb.Borrow.BrResend
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    @(mb.Borrow.BrResend.Value.CompareTo(DateTime.Now) > 0? "Processing":"Have done")
+                                                </td>
+                                                <td class="product-subtotal">$@String.Format("{0:0.00}", @mb.BorrowDetail.Total)</td>
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>

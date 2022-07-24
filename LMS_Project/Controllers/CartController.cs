@@ -195,7 +195,7 @@ namespace LMS_Project.Controllers
             if (Request.Cookies["cart"] != null)
             {
                 Dictionary<int, int> cart = JsonConvert.DeserializeObject<Dictionary<int, int>>(Request.Cookies["cart"]);
-                Borrow o = new Borrow(u.UId, DateTime.Now, DateTime.Now.AddDays(3));
+                Borrow o = new Borrow(u.UId, DateTime.Now, DateTime.Now.AddDays(3), 1);
                 db.Borrows.Add(o);
                 db.SaveChanges();
                 int lastOrId = db.Borrows.OrderBy(x => x.BrId).LastOrDefault().BrId;

@@ -161,5 +161,48 @@ namespace LMS_Project.Controllers
             else ul.ActUser(b);
             return RedirectToAction("user", new { bcid = bcid, autid = autid, page = page, bid = 1 });
         }
+        public IActionResult BookEdit(string bcid = "0", int autid = -1, int page = 1, int bid = 0)
+        {
+            HomeLogics hl = new HomeLogics();
+            UserLogics ul = new UserLogics();
+            List<BookCategory> bcates = hl.GetAllBCate();
+            List<User> auts = ul.GetAllAut();
+            Book b = hl.GetBookById(bid);
+            string json = HttpContext.Session.GetString("user");
+            User u = null;
+            if (json != null) u = JsonConvert.DeserializeObject<User>(json);
+            if (u == null) return Redirect("/user/account/log");
+            ViewBag.BCate = bcates;
+            ViewBag.B = b;
+            ViewBag.Aut = auts;
+            ViewBag.BCateCur = bcid;
+            ViewBag.BStatus = autid;
+            ViewBag.PageCur = page;
+            return View("/Views/Index/BookAction.cshtml");
+        }
+        [HttpPost]
+        public IActionResult AccessBookEdit(string bid, string bname, string bstock, string bprice, string bdesc, string bcateid, string bcate, string bsta, string page)
+        {
+            HomeLogics hl = new HomeLogics();
+            UserLogics ul = new UserLogics();
+            BookLogics bl = new BookLogics();
+            List<BookCategory> bcates = hl.GetAllBCate();
+            List<User> auts = ul.GetAllAut();
+            Book b = new Book(Int32.Parse(bid), bname, Int32.Parse(bstock), decimal.Parse(bprice), bdesc, bcateid);
+            string json = HttpContext.Session.GetString("user");
+            User u = null;
+            if (json != null) u = JsonConvert.DeserializeObject<User>(json);
+            if (u == null) return Redirect("/user/account/log");
+            bl.EditBook(b);
+            ViewBag.Suc = "You have just edited this book successfully!";
+            ViewBag.BCate = bcates;
+            ViewBag.B = b;
+            ViewBag.Aut = auts;
+            ViewBag.BCateCur = bcate;
+            ViewBag.BStatus = Int32.Parse(bsta);
+            ViewBag.PageCur = Int32.Parse(page);
+            return View("/Views/Index/BookAction.cshtml");
+        }
+        
     }
 }

@@ -87,3 +87,4 @@ E:\C#\PRN_Project_Self_Summer2022\LMS_Project\obj\Debug\net5.0\Razor\Views\Index
 E:\C#\PRN_Project_Self_Summer2022\LMS_Project\obj\Debug\net5.0\LMS_Project.RazorTargetAssemblyInfo.cs
 E:\C#\PRN_Project_Self_Summer2022\LMS_Project\obj\Debug\net5.0\LMS_Project.Views.pdb
 E:\C#\PRN_Project_Self_Summer2022\LMS_Project\obj\Debug\net5.0\Razor\Views\Index\UserManage.cshtml.g.cs
+E:\C#\PRN_Project_Self_Summer2022\LMS_Project\obj\Debug\net5.0\Razor\Views\Index\BookAction.cshtml.g.cs
