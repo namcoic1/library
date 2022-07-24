@@ -28,5 +28,16 @@ namespace LMS_Project.Logics
             old.BLastupdated = DateTime.Now;
             db.SaveChanges();
         }
+        public void EditBook(Book b)
+        {
+            Book old = db.Books.FirstOrDefault(bb => bb.BId == b.BId);
+            old.BName = b.BName;
+            old.BStock = b.BStock;
+            old.BPrice = b.BPrice;
+            old.BDesc = b.BDesc;
+            old.BCateId = b.BCateId;
+            old.BLastupdated = DateTime.Now;
+            db.SaveChanges();
+        }
     }
 }

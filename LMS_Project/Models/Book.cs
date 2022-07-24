@@ -12,6 +12,16 @@ namespace LMS_Project.Models
             BorrowDetails = new HashSet<BorrowDetail>();
         }
 
+        public Book(int bId, string bName, int? bStock, decimal? bPrice, string bDesc, string bCateId)
+        {
+            BId = bId;
+            BName = bName;
+            BStock = bStock;
+            BPrice = bPrice;
+            BDesc = bDesc;
+            BCateId = bCateId;
+        }
+
         public int BId { get; set; }
         public string BName { get; set; }
         public string BImg { get; set; }
