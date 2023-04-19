@@ -1,2 +1,6 @@
 # online-library
-This is a self-project that I have done before when I studied semester 5 at the university. Welcome to my project.
+Welcome to my project! This is a self-project that I did when I studied semester 5 in the university.
+=============================================================================================================================================================
+Tool: visual studio, visual studio code, MSQL Server,...
+=============================================================================================================================================================
+FE: ASP.NET Core MVC(razors), HTML, CSS, JS,... BE: Entity framework, C#,...
