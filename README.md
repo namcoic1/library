@@ -1,4 +1,4 @@
-# online-library
+# library-management
 Welcome to my project! This is a self-project that I did when I studied semester 5 in the university.
 
 =============================================================================================
