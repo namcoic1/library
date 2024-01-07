@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\C#\\PRN_Project_Self_Summer2022\\LMS_Project\\LMS_Project.csproj": {}
+    "E:\\C#\\Base-C#\\PRN_Project_Self_Summer2022\\LMS_Project\\LMS_Project.csproj": {}
   },
   "projects": {
-    "E:\\C#\\PRN_Project_Self_Summer2022\\LMS_Project\\LMS_Project.csproj": {
+    "E:\\C#\\Base-C#\\PRN_Project_Self_Summer2022\\LMS_Project\\LMS_Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\C#\\PRN_Project_Self_Summer2022\\LMS_Project\\LMS_Project.csproj",
+        "projectUniqueName": "E:\\C#\\Base-C#\\PRN_Project_Self_Summer2022\\LMS_Project\\LMS_Project.csproj",
         "projectName": "LMS_Project",
-        "projectPath": "E:\\C#\\PRN_Project_Self_Summer2022\\LMS_Project\\LMS_Project.csproj",
+        "projectPath": "E:\\C#\\Base-C#\\PRN_Project_Self_Summer2022\\LMS_Project\\LMS_Project.csproj",
         "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "E:\\C#\\PRN_Project_Self_Summer2022\\LMS_Project\\obj\\",
+        "outputPath": "E:\\C#\\Base-C#\\PRN_Project_Self_Summer2022\\LMS_Project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -61,7 +62,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -73,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
         }
       }
     }

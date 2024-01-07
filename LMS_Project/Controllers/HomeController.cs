@@ -1,12 +1,8 @@
 ﻿using LMS_Project.Logics;
 using LMS_Project.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace LMS_Project.Controllers
 {
@@ -97,19 +93,22 @@ namespace LMS_Project.Controllers
             List<BookCategory> bcates = hl.GetAllBCate();
             List<User> auts = ul.GetAllAut();
             Book book = hl.GetBookById(bcid);
-            book.BPrice = (decimal?)((double)book.BPrice + (double)book.BPrice * 0.2);
-            List<Book> brelate = hl.GetAllBByBCateIdAct(book.BCateId);
-            if (brelate.Contains(book)) brelate.Remove(book);
-            foreach (Book b in brelate)
+            if (book != null)
             {
-                b.BPrice = (decimal?)((double)b.BPrice + (double)b.BPrice * 0.2);
+                book.BPrice = (decimal?)((double)book.BPrice + (double)book.BPrice * 0.2);
+                List<Book> brelate = hl.GetAllBByBCateIdAct(book.BCateId);
+                if (brelate.Contains(book)) brelate.Remove(book);
+                foreach (Book b in brelate)
+                {
+                    b.BPrice = (decimal?)((double)b.BPrice + (double)b.BPrice * 0.2);
+                }
+                BookCategory bc = hl.GetBookCateById(book.BCateId);
+                ViewBag.BCate = bcates;
+                ViewBag.Aut = auts;
+                ViewBag.BRelate = brelate;
+                ViewBag.BCateCur = bc;
+                ViewBag.Book = book;
             }
-            BookCategory bc = hl.GetBookCateById(book.BCateId);
-            ViewBag.BCate = bcates;
-            ViewBag.Aut = auts;
-            ViewBag.BRelate = brelate;
-            ViewBag.BCateCur = bc;
-            ViewBag.Book = book;
             return View("/Views/Index/BookDetail.cshtml");
         }
     }
